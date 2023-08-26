@@ -1,11 +1,11 @@
 #include<iostream>
 #include "eval/cec22_functions_wrapper.h"
 
-int main() {
+int main(int argc, char **argv) {
 
-    Cec22FunctionsWrapper *f = new Cec22FunctionsWrapper(1);
+    Cec22FunctionsWrapper f(1);
 
-    // cout << f.eval({ 0, 0 });
+    std::cout << f.eval({ 0, 0 }) << endl;
 
     return 0;
 }

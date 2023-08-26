@@ -1,7 +1,12 @@
 #include "cec22_functions_wrapper.h"
-#include "cec22_test_func.cpp"
+#include "cec22_test_func.c"
 
 #include <cassert>
+
+double *OShift,*M,*y,*z,*x_bound, *Rn;
+int ini_flag=0,n_flag,func_flag,*SS;
+FILE *fpt;
+
 
 Cec22FunctionsWrapper::Cec22FunctionsWrapper(int function_id) 
     : ObjectiveFunction<double>() 
@@ -26,7 +31,7 @@ RealType Cec22FunctionsWrapper::eval(vector<double> const &x)
     RealType result;
     cec22_test_func(&vector<double>(x)[0], &result, x.size(), 1, this->function_id_);
 
-    return 0.0;
+    return result;
 }
 
 

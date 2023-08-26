@@ -7,10 +7,10 @@ alglibObjs = $(patsubst %.cpp,%.o,$(_alglibObjs))
 _evalObjs = $(wildcard eval/*.cpp)
 evalObjs = $(patsubst %.cpp,%.o,$(_evalObjs))
 
-all : main 
+all : solver 
 
-main : main.cpp ${evalObjs}
-	$(CC) -o $@ $<
+solver : main.cpp ${evalObjs}
+	$(CC) -o $@ main.cpp ${evalObjs}
 
 mining.a: mining/*.cpp alglib.a 
 	ar rvs mining.a $<
@@ -24,8 +24,7 @@ mining/alglib/%.o: mining/alglib/%.cpp
 eval/%.o: eval/%.cpp     
 	$(CC) $(CFLAGS) $@ $<
 
-
-.PHONY: clean
-
 clean:
-	rm -f *.o
+	@find ./ -iname "solver" -exec rm {} \;
+	@find ./ -iname "*.o" -exec rm {} \;
+	@find ./ -iname "*.a" -exec rm {} \;
