@@ -82,22 +82,22 @@ real_2d_array convertToReal2dArray(const vector<vector<double> >& data_set) {
 }
 
 
-vector< map<int, double> > PatternMiner::extractPatterns(vector<vector<double> > elite, const vector<double>& lower_bound, const vector<double>& upper_bound, int k) {
+vector< map<int, double> > PatternMiner::extractPatterns(vector<vector<double> > data_set, const vector<double>& lower_bound, const vector<double>& upper_bound, int k) {
 	
-	this->dataSet = elite;
+	this->dataSet = data_set;
 	vector<map<int, double> > patterns;
 
 	kmeansreport rep;
 	
 	if (k > 0)
-		rep = kMeans_alglib(elite, k, lower_bound, upper_bound);  
+		rep = kMeans_alglib(data_set, k, lower_bound, upper_bound);  
 	else
-		rep = xMeans_alglib(elite, elite.size(), lower_bound, upper_bound);
+		rep = xMeans_alglib(data_set, data_set.size(), lower_bound, upper_bound);
 
 	integer_1d_array cidx = rep.cidx;
     real_2d_array cz = rep.c;
 
-	int problem_size = elite.front().size();
+	int problem_size = data_set.front().size();
 
 	int *sorted_array = (int *)malloc(sizeof(int) * problem_size);
   	double *variables_std_dev = (double *)malloc(sizeof(double) * problem_size);

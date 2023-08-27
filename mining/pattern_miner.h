@@ -35,6 +35,6 @@ class PatternMiner {
 	
 public:
 	// return the list de clusters as partterns
-	vector<map<int, double> > extractPatterns(vector<vector<double>> elite, const vector<double>& lower_bound, const vector<double>& upper_bound, int k=0);
+	vector<map<int, double>> extractPatterns(vector<vector<double>> data_set, const vector<double>& lower_bound, const vector<double>& upper_bound, int k=0);
 };
 

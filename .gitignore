@@ -2,3 +2,4 @@
 .vscode
 mining/alglib/*
 *.a
+*.o
