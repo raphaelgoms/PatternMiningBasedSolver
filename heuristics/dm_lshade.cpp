@@ -49,12 +49,14 @@ void _fprintElite(vector<tuple<Individual, double>> elite, int generation, strin
 DM_LSHADE::DM_LSHADE(ObjectiveFunction<double> *f, 
   PatternSelectionStrategy pattern_sel_strategy, 
   SolutionFillingStrategy filling_strategy,
-  PatternUsageStrategy pattern_usage_strategy)
+  PatternUsageStrategy pattern_usage_strategy,
+  EliteType elite_type)
 {
   this->f = f;
   this->pattern_sel_strategy = pattern_sel_strategy;
   this->filling_strategy = filling_strategy;
   this->pattern_usage_strategy = pattern_usage_strategy;
+  this->elite_type = elite_type;
 }
 
 Fitness DM_LSHADE::run()
@@ -207,10 +209,13 @@ Fitness DM_LSHADE::run()
     sortIndexWithQuickSort(&temp_fit[0], 0, pop_size - 1, sorted_array);
 
     // update elite set: ========================
-    //updateElite(pop, sorted_array, temp_fit);
-    elite.clear();
-    for (int i=0; i<p_num; i++) {
-        elite.push_back({ pop[sorted_array[i]], fitness[sorted_array[i]] });
+    if (elite_type == CROSS_GENERATION) {
+      updateElite(pop, sorted_array, temp_fit);
+    } else { // BY_GENERATION
+      elite.clear();
+      for (int i=0; i<p_num; i++) {
+          elite.push_back({ pop[sorted_array[i]], fitness[sorted_array[i]] });
+      }
     }
     // ==========================================
 
@@ -493,7 +498,6 @@ void DM_LSHADE::updateElite(vector<Individual> curr_pop, int* sorted_indexes, do
             Individual ind = curr_pop[index];
             Fitness fit = fitness[i];
 
-            //if ( fit != get<1>(elite[pos]) )
             elite.insert(elite_member, { ind , fit });
         }
     }

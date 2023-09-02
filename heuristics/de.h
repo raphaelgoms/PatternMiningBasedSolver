@@ -184,10 +184,16 @@ public:
     LINE_SEARCH
   };
     
+  enum EliteType {
+    BY_GENERATION,
+    CROSS_GENERATION
+  };
+
   DM_LSHADE(ObjectiveFunction<double> *f,
     PatternSelectionStrategy pattern_sel_strategy = RANDOM, 
     SolutionFillingStrategy filling_strategy = P_BEST,
-    PatternUsageStrategy pattern_usage_strategy = MUTATION_SCHEME);
+    PatternUsageStrategy pattern_usage_strategy = MUTATION_SCHEME,
+    EliteType elite_type = BY_GENERATION);
 
   virtual Fitness run();
   void setSHADEParameters();
@@ -210,8 +216,9 @@ public:
   PatternUsageStrategy pattern_usage_strategy = MUTATION_SCHEME;
   PatternSelectionStrategy pattern_sel_strategy = RANDOM;
   SolutionFillingStrategy filling_strategy = P_BEST; 
+  EliteType elite_type = BY_GENERATION;
   vector<tuple<Individual, double>> elite;
-  int elite_max_size = 100;
+  int elite_max_size = 30;
 };
 
 #endif
