@@ -11,6 +11,19 @@
 #include"de.h"
 #include<vector>
 
+int g_problem_size = 10;
+int g_pop_size = (int)round(g_problem_size * 18);
+double g_arc_rate = 2.6;
+int g_memory_size = 6;
+double g_p_best_rate = 0.11;
+int g_function_number;
+int g_restart_generation;
+double g_min_region = -100;
+double g_max_region = 100;
+int g_number_of_used_vars = 10;
+unsigned int g_max_num_evaluations;
+double g_optimum[12] = {300, 400, 600, 800, 900, 1800, 2000, 2200, 2300, 2400, 2600, 2700};
+
 void fprintPopulation(vector <Individual> pop, int generation, string basepath) {
   string fullpath = basepath + "pop-g" + to_string(generation) + ".csv";
   std::ofstream pop_file;
@@ -60,7 +73,7 @@ void searchAlgorithm::initializeParameters() {
 void searchAlgorithm::evaluatePopulation(const vector<Individual> &pop, vector<Fitness> &fitness) {
 
   for (int i = 0; i < pop_size; i++) {
-    fitness[i] = f->eval(std::vector<double>(pop[i], pop[i] + sizeof(pop[i])));
+    fitness[i] = f->eval(std::vector<double>(pop[i], pop[i] + g_problem_size));
   }
 }
 

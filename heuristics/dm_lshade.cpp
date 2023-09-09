@@ -471,7 +471,7 @@ Fitness DM_LSHADE::run()
   }
 
   this->clusters_count /= generation;
-  cout << generation << endl;
+  cout << "Gen. count:" << generation << endl;
   
   this->success_rate = (double)succ_count / cmp_count;
   return bsf_fitness - optimum;

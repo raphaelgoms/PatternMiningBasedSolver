@@ -10,8 +10,11 @@ typedef double RealType;
 template <class T>
 class ObjectiveFunction
 {
+    
 protected:
+    int function_id_ = -1;
     string function_name;
+    int dimension;
     T optimum;
 
 public:
@@ -33,6 +36,22 @@ public:
     /// @brief 
     /// @param fname the function name
     void setFunctionName(string function_name);
+
+    /// @brief 
+    /// @return the function name
+    int getFunctionId();
+
+    /// @brief 
+    /// @param fname the function name
+    void setFunctionId(int function_id);
+
+    /// @brief 
+    /// @return dimension of the function(The number of dimensions of the solution space)
+    int getDimension();
+
+    /// @brief 
+    /// @param dimension The number of dimensions of the solution space
+    void setDimension(int dimension);
 
     /// @brief 
     /// @return the best value to this function 

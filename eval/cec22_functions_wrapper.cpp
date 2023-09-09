@@ -1,5 +1,8 @@
 #include "cec22_functions_wrapper.h"
+#include "objective_function.h"
 #include "cec22_test_func.c"
+
+#include<iostream>
 
 #include <cassert>
 
@@ -12,6 +15,8 @@ Cec22FunctionsWrapper::Cec22FunctionsWrapper(int function_id)
     : ObjectiveFunction<double>() 
 { 
     this->function_id_ = function_id;
+    //this->getFunctionId();
+    
 }
 
 RealType Cec22FunctionsWrapper::eval(double *x, int vsize) 

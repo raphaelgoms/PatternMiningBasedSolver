@@ -11,11 +11,13 @@ using namespace std;
 
 LSHADE::LSHADE(ObjectiveFunction<double> *f)
 {
+  //g_function_number = f->getDimension();
   this->f = f;
 }
 
 Fitness LSHADE::run()
 {
+  //cout << optimum;
   this->used_gen_count = 0;
   // cout << scientific << setprecision(8);
   initializeParameters();
