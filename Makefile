@@ -1,4 +1,4 @@
-CC = g++ -std=c++11
+CC = g++ -std=c++17
 CFLAGS = -c -o
 
 _alglibObjs = $(wildcard mining/alglib/*.cpp)
@@ -13,16 +13,19 @@ evalObjs = $(patsubst %.cpp,%.o,$(_evalObjs))
 _heuristicsObjs = $(wildcard heuristics/*.cpp)
 heuristicsObjs = $(patsubst %.cpp,%.o,$(_heuristicsObjs))
 
+_utilsObjs = $(wildcard utils/*.cpp)
+utilsObjs = $(patsubst %.cpp,%.o,$(_utilsObjs))
+
 all : solver 
 
-solver : main.cpp eval.a heuristics.a
-	$(CC) -o $@ main.cpp ${evalObjs} heuristics.a
+solver : main.cpp eval.a heuristics.a ${utilsObjs}
+	$(CC) -o $@ main.cpp ${evalObjs} ${utilsObjs} heuristics.a
 
 heuristics.a: ${heuristicsObjs} ${miningObjs} ${alglibObjs} 
 	ar rvs heuristics.a ${heuristicsObjs} ${miningObjs} ${alglibObjs} 
 
 # heuristics.a: $(heuristicsObjs) alglib.a mining.a
-# 	ar rvs heuristics.a $<
+#	ar rvs heuristics.a $<
 
 mining.a: ${miningObjs} ${alglibObjs} 
 	ar rvs mining.a ${miningObjs} ${alglibObjs} 
@@ -43,6 +46,9 @@ eval/%.o: eval/%.cpp
 	$(CC) $(CFLAGS) $@ $<
 
 heuristics/%.o: heuristics/%.cpp     
+	$(CC) $(CFLAGS) $@ $<
+
+utils/%.o: utils/%.cpp     
 	$(CC) $(CFLAGS) $@ $<
 
 #heuristics/%.o: heuristics/%.cpp mining.a stdlib.a 

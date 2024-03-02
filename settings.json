@@ -1,0 +1,40 @@
+{
+    "parameters": [
+        { "name": "nvar", "type": "integer" },
+        { "name": "seed", "type": "integer" },
+        { "name": "elsz", "type": "integer" },
+        { "name": "gs", "type": "integer" },
+        { "name": "dmstart", "type": "integer" },
+        { "name": "ptsz", "type": "real" },
+        { "name": "sd", "type": "real" },
+        { "name": "cec", "type": "integer" },
+        { "name": "k", "type": "real" },
+        { "name": "s", "type": "real" },
+        { "name": "h", "type": "real" },
+        { 
+            "name": "algname",  
+            "type": "AlgorithmCode",
+            "values": ["dmc", "xdmc", "mxdmc", "rmxdmc", "amxdmc", "cgrasp", "imcgrasp", "lshade", "dmlshade", "fimlshade", "fpglshade"]
+        },
+        {
+            "name": "elitetype",
+            "type": "EliteTypeCode",
+            "values": ["bygen", "crossgen"]
+        },
+        {
+            "name": "patternunsage",
+            "type": "PatternUsageStrategy",
+            "values": ["mutation", "insert"]
+        },
+        {
+            "name": "patternsel",
+            "type": "PatternSelectionStrategy",
+            "values": ["random", "queue"]
+        },
+        {
+            "name": "solutionfill",
+            "type": "SolutionFillingStrategy",
+            "values": ["pbest", "momentum", "linesearch"]
+        }
+    ]
+}

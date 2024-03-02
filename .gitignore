@@ -4,3 +4,4 @@ mining/alglib/*
 *.a
 *.o
 solver
+tasks

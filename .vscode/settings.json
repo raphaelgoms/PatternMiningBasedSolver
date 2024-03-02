@@ -68,6 +68,17 @@
         "random": "cpp",
         "utility": "cpp",
         "deque": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "fstream": "cpp",
+        "any": "cpp",
+        "codecvt": "cpp",
+        "forward_list": "cpp",
+        "set": "cpp",
+        "numeric": "cpp",
+        "iomanip": "cpp",
+        "numbers": "cpp",
+        "ranges": "cpp",
+        "sstream": "cpp",
+        "valarray": "cpp"
     }
 }

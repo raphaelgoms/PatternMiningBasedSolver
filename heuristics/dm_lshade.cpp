@@ -14,37 +14,6 @@
 using namespace alglib;
 
 using namespace std;
-namespace fs = __fs::filesystem;
-
-void _fprintElite(vector<tuple<Individual, double>> elite, int generation, string basepath) {
-  string fullpath = basepath + "elite-g" + to_string(generation) + ".csv";
-  std::ofstream patterns_file;
-
-  patterns_file.open(fullpath);
-
-  for (int j = 0; j < g_problem_size; j++) {
-    patterns_file << "x" << j+1;
-
-    if (j < g_problem_size - 1)
-      patterns_file << ";";
-  }
-  patterns_file << endl;
-
-  // TODO: persist pop in file
-  for (int i = 0; i < elite.size(); i++)
-  { 
-    for (int j = 0; j < g_problem_size; j++)
-    {
-      patterns_file << get<0>(elite[i])[j];
-
-      if (j < g_problem_size - 1)
-        patterns_file << ";";
-    }
-    patterns_file << endl;
-  }
-
-  patterns_file.close();
-}
 
 DM_LSHADE::DM_LSHADE(ObjectiveFunction<double> *f, 
   PatternSelectionStrategy pattern_sel_strategy, 
@@ -87,13 +56,6 @@ Fitness DM_LSHADE::run()
     pop.push_back(makeNewIndividual());
     children.push_back((variable *)malloc(sizeof(variable) * problem_size));
   }
-  std::string results_root_path = "";
-
-  while (!fs::is_directory(results_root_path + "results"))
-    results_root_path += "../";
-  results_root_path += "results";
-
-  if (print) fprintPopulation(pop, generation, results_root_path + "/generations/DM_LSHADE/");
 
   // evaluate the initial population's fitness values
   evaluatePopulation(pop, fitness);
@@ -189,7 +151,6 @@ Fitness DM_LSHADE::run()
   //vector<tuple<Individual, double>> elite;
   PatternMiner miner;
 
-  string basepath = results_root_path + "/generations/dmlshade/";
   int currentPatternIndex = 0;
   // main loop
   while (nfes < max_num_evaluations)
@@ -219,7 +180,6 @@ Fitness DM_LSHADE::run()
     }
     // ==========================================
 
-    if (print) _fprintElite(elite, generation, basepath);
 
     // patterns mining: ========================
     vector<vector<double>> points;
@@ -325,7 +285,6 @@ Fitness DM_LSHADE::run()
     }
 
     generation++;
-    if (print) fprintPopulation(pop, generation, results_root_path + "/generations/DM_LSHADE/");
     
     // evaluate the children's fitness values
     evaluatePopulation(children, children_fitness);
@@ -471,8 +430,6 @@ Fitness DM_LSHADE::run()
   }
 
   this->clusters_count /= generation;
-  cout << "Gen. count:" << generation << endl;
-  
   this->success_rate = (double)succ_count / cmp_count;
   return bsf_fitness - optimum;
 }

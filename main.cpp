@@ -1,8 +1,7 @@
-#include<iostream>
+#include <iostream>
 #include "eval/cec22_functions_wrapper.h"
 #include "heuristics/de.h"
-
-namespace fs = __fs::filesystem;
+#include "utils/parameter.h"
 
 // int g_problem_size = 10;
 // int g_pop_size = (int)round(g_problem_size * 18);
@@ -19,10 +18,8 @@ namespace fs = __fs::filesystem;
 
 int main(int argc, char **argv) {
 
-    if( !fs::is_directory("results") ) {
-        std::cout << "Create the results directory in the project root.\n";
-        exit(0);
-    }
+    auto p = ProgramArgs();
+    p.parseArgs(argc, argv, true);
 
     if (g_problem_size == 10)
         g_max_num_evaluations = 200000;
@@ -31,24 +28,14 @@ int main(int argc, char **argv) {
 
     Cec22FunctionsWrapper *f = new Cec22FunctionsWrapper(2);
 
-    std::cout << f->eval({ 2, 2 }) << endl;
-
-    std::cout << f->eval({ 16.01, 16.01 }) << endl;
-
-    std::cout << f->eval({ 16.05, 16.05 }) << endl;
-
-    std::cout << f->eval({ 16.2, 16.2 }) << endl;
-
-    std::cout << f->eval({ 16.3, 16.3 }) << endl;
-
     g_function_number = 1;
     LSHADE lshade(f);
 
-    std::cout << lshade.run() << endl;
+    std::cout << "lshade: " <<  lshade.run() << endl;
 
     DM_LSHADE dmlshade(f);
 
-    std::cout << "dm_lshade: \n" << dmlshade.run() << endl; // TODO: create a ds to save stats of alg. run
+    std::cout << "dm_lshade: " << dmlshade.run() << endl; // TODO: create a ds to save stats of alg. run
 
     //return 0;
 }
