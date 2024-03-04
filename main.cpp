@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "eval/cec22_functions_wrapper.h"
 #include "heuristics/de.h"
 #include "utils/parameter.h"
@@ -36,6 +37,8 @@ int main(int argc, char **argv) {
     DM_LSHADE dmlshade(f);
 
     std::cout << "dm_lshade: " << dmlshade.run() << endl; // TODO: create a ds to save stats of alg. run
+
+    Pattern<Interval> pattern;
 
     //return 0;
 }

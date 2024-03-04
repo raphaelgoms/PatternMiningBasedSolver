@@ -13,6 +13,15 @@ using namespace alglib;
 
 extern int g_number_of_used_vars;
 
+template <typename T> // Currently T can be a real number or a interval of real numbers
+using Pattern = map<int, T>;
+using Interval = tuple<double, double>;
+
+template <typename T>
+class _PatternMiner {
+	vector<Pattern<T>> mine(vector<vector<double>> data_set);
+};
+
 class PatternMiner {
 
 	vector<vector<double>> dataSet;

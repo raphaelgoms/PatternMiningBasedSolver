@@ -22,6 +22,8 @@
 #include <ctime>
 
 #include "../eval/objective_function.h"
+#include "../mining/pattern_miner.h" 
+
 //#define M_PI 3.1415926535897932384626433832795029
 
 using namespace std;

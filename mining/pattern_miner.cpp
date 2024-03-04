@@ -81,11 +81,90 @@ real_2d_array convertToReal2dArray(const vector<vector<double> >& data_set) {
 	return xy;
 }
 
+template <typename T> 
+vector< Pattern<T> > PatternMiner::extractPatterns(vector<vector<double> > data_set, const vector<double>& lower_bound, const vector<double>& upper_bound, int k) {
+	
+	this->dataSet = data_set;
+	vector<map<int, double> > patterns;
+
+	Pattern<double> p;
+	p[1] = 0.1;
+
+	Pattern<Interval> p2;
+	p2[1] = { 0, 1 };
+
+	kmeansreport rep;
+	
+	if (k > 0)
+		rep = kMeans_alglib(data_set, k, lower_bound, upper_bound);  
+	else
+		rep = xMeans_alglib(data_set, data_set.size(), lower_bound, upper_bound);
+
+	integer_1d_array cidx = rep.cidx;
+    real_2d_array cz = rep.c;
+
+	int problem_size = data_set.front().size();
+
+	int *sorted_array = (int *)malloc(sizeof(int) * problem_size);
+  	double *variables_std_dev = (double *)malloc(sizeof(double) * problem_size);
+
+	vector<vector<double>> clst_points;
+	for (int i = 0; i < cz.rows(); i++)
+	{
+		double *centroid = cz[i];
+		clst_points = getClusterPoints(i, cidx);
+
+		double min_dev = 1.0e10;
+		double avg_dev = 0.0;
+		int chosed_var = alglib::randomreal() * problem_size;
+
+		for (size_t j = 0; j < problem_size; j++)
+		{	
+			variables_std_dev[j] = 0.0;
+			for (size_t l = 0; l < clst_points.size(); l++)
+			{
+				variables_std_dev[j] += pow(clst_points[l][j] - centroid[j], 2.0);
+			}
+
+			variables_std_dev[j] = sqrt(variables_std_dev[j]/clst_points.size());
+			avg_dev += variables_std_dev[j];
+
+			if (variables_std_dev[j] < min_dev) {
+				min_dev = variables_std_dev[j];
+				chosed_var = j;
+			}
+
+			sorted_array[j] = j;
+		} 
+		avg_dev /= problem_size;
+
+		// Ordenar variaveis pelo desvio padrão:
+		_sortIndexWithQuickSort(&variables_std_dev[0], 0, problem_size - 1, sorted_array);
+		
+		map<int, double> _pattern;
+		int num_of_patterns_to_use = g_number_of_used_vars;
+		for (size_t j = 0; j < num_of_patterns_to_use; j++)
+		{	
+			_pattern.insert(pair<int, double>(sorted_array[j], centroid[sorted_array[j]]));
+		}
+			
+		patterns.push_back(_pattern);
+	}
+
+	return patterns;	
+}
+
 
 vector< map<int, double> > PatternMiner::extractPatterns(vector<vector<double> > data_set, const vector<double>& lower_bound, const vector<double>& upper_bound, int k) {
 	
 	this->dataSet = data_set;
 	vector<map<int, double> > patterns;
+
+	Pattern<double> p;
+	p[1] = 0.1;
+
+	Pattern<Interval> p2;
+	p2[1] = { 0, 1 };
 
 	kmeansreport rep;
 	

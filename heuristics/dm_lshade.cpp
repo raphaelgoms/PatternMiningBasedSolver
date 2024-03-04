@@ -1,6 +1,6 @@
 
 #include "de.h"
-#include "../mining/pattern_miner.h" 
+
 
 #include <filesystem>
 #include <iostream>
