@@ -22,7 +22,7 @@
 #include <ctime>
 
 #include "../eval/objective_function.h"
-#include "../mining/pattern_miner.h" 
+#include "../mining/pattern_miner.hpp" 
 
 //#define M_PI 3.1415926535897932384626433832795029
 
