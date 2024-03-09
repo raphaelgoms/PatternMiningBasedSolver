@@ -183,6 +183,10 @@ Fitness DM_LSHADE::run()
         points.push_back(point);
     }
 
+
+    _PatternMiner<double> _pm;
+    _pm.mine(points);
+
     if (mining_algorithm == "xmeans") {
       patterns = miner.extractPatterns(points, lower_bounds, upper_bounds);
     } 

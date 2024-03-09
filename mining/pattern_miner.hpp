@@ -6,6 +6,8 @@
 #include <math.h>
 #include <random>
 
+#include "clusterizer.hpp"
+
 #define PI 3.1415926535897932384626433832795029
 
 using namespace std;
@@ -19,8 +21,23 @@ using Interval = tuple<double, double>;
 
 template <typename T>
 class _PatternMiner {
-	vector<Pattern<T>> mine(vector<vector<double>> data_set);
+public:
+	virtual vector<Pattern<T>> mine(const DataSet& data_set) = 0;
 };
+
+template <>
+inline vector<Pattern<double>> _PatternMiner<double>::mine(const DataSet& data_set) {
+	Clusterizer clusterizer;
+	std::vector<Cluster> clusters = clusterizer.run(data_set);	
+	std::vector<Pattern<double>> patterns;
+	for (auto cl=clusters.begin(); cl!=clusters.end(); cl++) {
+		Pattern<double> p;
+		for (size_t k = 0; k < (*cl).centroid.size(); k++) 
+			p[k] = (*cl).centroid[k];
+	}
+	
+    return vector<Pattern<double>>();
+}
 
 class PatternMiner {
 
@@ -46,4 +63,9 @@ public:
 	// return the list de clusters as partterns
 	vector<map<int, double>> extractPatterns(vector<vector<double>> data_set, const vector<double>& lower_bound, const vector<double>& upper_bound, int k=0);
 };
+
+// template <typename T>
+// inline vector<Pattern<T>> _PatternMiner<T>::mine(const DataSet& data_set) {
+// 	return vector<Pattern<T>>();
+// }
 
