@@ -61,3 +61,6 @@ clean:
 	@find ./ -iname "solver" -exec rm {} \;
 	@find ./ -iname "*.o" -exec rm {} \;
 	@find ./ -iname "*.a" -exec rm {} \;
+
+run:
+	-exec ./solver

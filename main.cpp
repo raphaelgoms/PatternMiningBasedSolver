@@ -2,7 +2,7 @@
 
 #include "eval/cec22_functions_wrapper.h"
 #include "heuristics/de.h"
-#include "utils/parameter.h"
+#include "utils/programargsparser.h"
 
 // int g_problem_size = 10;
 // int g_pop_size = (int)round(g_problem_size * 18);
@@ -19,7 +19,7 @@
 
 int main(int argc, char **argv) {
 
-    auto p = ProgramArgs();
+    auto p = ProgramArgsParser();
     p.parseArgs(argc, argv, true);
 
     if (g_problem_size == 10)
@@ -31,15 +31,10 @@ int main(int argc, char **argv) {
 
     g_function_number = 1;
     LSHADE lshade(f);
-
     std::cout << "lshade: " <<  lshade.run() << endl;
 
     DM_LSHADE dmlshade(f);
-
+    dmlshade.mining_algorithm = "kmeans";
+    dmlshade.number_of_patterns = std::any_cast<int>(p.getArgValue("k"));
     std::cout << "dm_lshade: " << dmlshade.run() << endl; // TODO: create a ds to save stats of alg. run
-
-    Pattern<Interval> pattern;
-
-
-    //return 0;
 }

@@ -1,4 +1,4 @@
-#include "parameter.h"
+#include "programargsparser.h"
 
 #include <iostream>
 #include <fstream>
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-ProgramArgs::ProgramArgs(/* args */)
+ProgramArgsParser::ProgramArgsParser(/* args */)
 {
     ifstream file;
     file.open("settings.json");
@@ -26,11 +26,11 @@ ProgramArgs::ProgramArgs(/* args */)
     }
 }
 
-ProgramArgs::~ProgramArgs()
+ProgramArgsParser::~ProgramArgsParser()
 {
 }
 
-void ProgramArgs::parseArgs(int argc, char **argv, bool printargs)
+void ProgramArgsParser::parseArgs(int argc, char **argv, bool printargs)
 {
     if (printargs) {
         cout << "--------------------------------" << endl;
@@ -79,12 +79,11 @@ void ProgramArgs::parseArgs(int argc, char **argv, bool printargs)
         }
     }
 
-     if (printargs) {
+    if (printargs) {
         cout << "--------------------------------" << endl;
     }
-
 }
 
-auto ProgramArgs::getArgs()
-{
+any ProgramArgsParser::getArgValue(string arg) {
+    return arg_values[arg];
 }

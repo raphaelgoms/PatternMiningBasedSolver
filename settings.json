@@ -8,7 +8,7 @@
         { "name": "ptsz", "type": "real" },
         { "name": "sd", "type": "real" },
         { "name": "cec", "type": "integer" },
-        { "name": "k", "type": "real" },
+        { "name": "k", "type": "integer" },
         { "name": "s", "type": "real" },
         { "name": "h", "type": "real" },
         { 

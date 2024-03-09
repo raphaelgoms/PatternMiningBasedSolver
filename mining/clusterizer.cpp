@@ -25,7 +25,8 @@ kmeansreport Clusterizer::kmeans_alglib(const DataSet &ds, int k)
 	ae_int_t disttype = 2; // Euclidian distance
 	int _k = k;
 
-	do {
+	do 
+    {
 		try {
 			clusterizercreate(s);
 			clusterizersetpoints(s, ar, disttype);
@@ -35,7 +36,8 @@ kmeansreport Clusterizer::kmeans_alglib(const DataSet &ds, int k)
 		} catch (alglib::ap_error ap_error) {
 			std::cout << ap_error.msg << std::endl;
 		}		
-	} while (rep.terminationtype == -3);
+	} 
+    while (rep.terminationtype == -3);
 
 	return rep;
 }

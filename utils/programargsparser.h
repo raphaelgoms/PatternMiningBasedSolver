@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class ProgramArgs
+class ProgramArgsParser
 {
 private:
     int args_count;
@@ -20,12 +20,12 @@ private:
     nlohmann::json args_json;
     
 public:
-    ProgramArgs(/* args */);
-    ~ProgramArgs();
+    ProgramArgsParser(/* args */);
+    ~ProgramArgsParser();
 
     
     void parseArgs(int argc, char **argv, bool printargs=false);
-    auto getArgs();
+    any getArgValue(string arg);
 };
 
 

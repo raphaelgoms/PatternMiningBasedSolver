@@ -20,52 +20,33 @@ using Pattern = map<int, T>;
 using Interval = tuple<double, double>;
 
 template <typename T>
-class _PatternMiner {
+class PatternMiner {
 public:
-	virtual vector<Pattern<T>> mine(const DataSet& data_set) = 0;
+	virtual vector<Pattern<T>> mine(const DataSet& data_set, int nmb_of_patterns=0) {};
 };
 
-template <>
-inline vector<Pattern<double>> _PatternMiner<double>::mine(const DataSet& data_set) {
+template <>	
+inline vector<Pattern<double>> PatternMiner<double>::mine(const DataSet& data_set, int nmb_of_patterns) {
 	Clusterizer clusterizer;
-	std::vector<Cluster> clusters = clusterizer.run(data_set);	
+	std::vector<Cluster> clusters;
+	
+	if (nmb_of_patterns)
+		clusters = clusterizer.run(data_set, "kmeans", nmb_of_patterns);	
+	else 
+		clusters = clusterizer.run(data_set, "xmeans");
+
 	std::vector<Pattern<double>> patterns;
 	for (auto cl=clusters.begin(); cl!=clusters.end(); cl++) {
 		Pattern<double> p;
 		for (size_t k = 0; k < (*cl).centroid.size(); k++) 
 			p[k] = (*cl).centroid[k];
+		patterns.push_back(p);
 	}
-	
-    return vector<Pattern<double>>();
+
+    return patterns;
 }
 
-class PatternMiner {
-
-	vector<vector<double>> dataSet;
-	vector<vector<double>> getClusterPoints(int k, integer_1d_array cidx);
-
-	kmeansreport kMeans_alglib(const vector<vector<double>> &data, int k, vector<double> min, vector<double> max);
-	kmeansreport xMeans_alglib(const vector<vector<double>> &data, int kMax, const vector<double> &min, const vector<double> &max);
-
-	int improveStructure(int k, const kmeansreport &clusters, int M, const vector<double> &min, const vector<double> &max);
-	double logLikelihood(int R, int Rn, double variance, double M, double K);
- 	
-	double average(const vector<double> &data);
-	double variance(const vector<vector<double>> &data, const vector<double> &centroid);
-    double distance(const vector<double> & v1, const vector<double> & v2);
-	double distance(double * v1, double *  v2, size_t vsize);
-
-	inline double normalize(const double &value, const double &lower_bound, const double &upper_bound) {
-    	return (value - lower_bound) / (upper_bound - lower_bound);
-	}
-	
-public:
-	// return the list de clusters as partterns
-	vector<map<int, double>> extractPatterns(vector<vector<double>> data_set, const vector<double>& lower_bound, const vector<double>& upper_bound, int k=0);
-};
-
-// template <typename T>
-// inline vector<Pattern<T>> _PatternMiner<T>::mine(const DataSet& data_set) {
-// 	return vector<Pattern<T>>();
-// }
-
+template <>
+inline vector<Pattern<Interval>> PatternMiner<Interval>::mine(const DataSet& data_seti, int nmb_of_patterns) {
+    return vector<Pattern<Interval>>();
+}

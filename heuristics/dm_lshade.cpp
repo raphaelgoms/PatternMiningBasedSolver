@@ -140,20 +140,17 @@ Fitness DM_LSHADE::run()
   // conv_speed.open("stats/conv_speed", std::ofstream::out | std::ofstream::app);
 
   // data mining aux. structures
-  map<int, double> _pattern;
-  vector<map<int, double>> patterns;
-  //vector<tuple<Individual, double>> elite;
-  PatternMiner miner;
+  Pattern<double> _pattern;
+  vector<Pattern<double>> patterns;
+  PatternMiner<double> miner;
 
   int currentPatternIndex = 0;
+  
   // main loop
   while (nfes < max_num_evaluations)
   {
-    // cout << nfes << "-" << bsf_fitness - optimum << endl;
-    if (bsf_fitness - optimum < 1.0e-8) {
-        //cout << "cfo: " << nfes << endl;
+    if (bsf_fitness - optimum < 1.0e-8) 
         break;
-    }
 
     this->used_gen_count++;
 
@@ -174,30 +171,21 @@ Fitness DM_LSHADE::run()
     }
     // ==========================================
 
-
     // patterns mining: ========================
-    vector<vector<double>> points;
-    for (int i = 0; i < elite.size(); i++) {
-        auto elm = elite[i];
-        vector<double> point = vector<double>(get<0>(elm), get<0>(elm) + problem_size);
-        points.push_back(point);
-    }
-
-
-    _PatternMiner<double> _pm;
-    _pm.mine(points);
+    DataSet ds;
+    for (int i = 0; i < elite.size(); i++) 
+        ds.push_back(vector<double>(get<0>(elite[i]), get<0>(elite[i]) + problem_size));
 
     if (mining_algorithm == "xmeans") {
-      patterns = miner.extractPatterns(points, lower_bounds, upper_bounds);
-    } 
-    else {
-      int k;
-      if (number_of_patterns == 0)
-        k = p_num;
-      else       
+      patterns = miner.mine(ds);
+    } else {
+      int k = p_num;
+      
+      if (number_of_patterns)
         k = min(number_of_patterns, p_num);
       
-      patterns = miner.extractPatterns(points, lower_bounds, upper_bounds, k);
+
+      patterns = miner.mine(ds, k);
     }
     this->clusters_count += patterns.size();
     //==========================================
