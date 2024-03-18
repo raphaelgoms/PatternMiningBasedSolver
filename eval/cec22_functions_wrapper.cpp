@@ -1,4 +1,7 @@
 #include "cec22_functions_wrapper.h"
+
+#ifdef CEC_2022_BENCHMARK
+
 #include "objective_function.h"
 #include "cec22_test_func.c"
 
@@ -39,5 +42,4 @@ RealType Cec22FunctionsWrapper::eval(vector<double> const &x)
     return result;
 }
 
-
-  
+#endif  

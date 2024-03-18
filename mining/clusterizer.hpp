@@ -14,7 +14,7 @@ struct Cluster
     std::vector<std::vector<double>> members;
 };
 
-class Clusterizer {
+class Clusterizer { // ???? Transform this in a interface ????
 private:
     DataSet ds;
 

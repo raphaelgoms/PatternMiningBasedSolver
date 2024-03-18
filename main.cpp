@@ -1,6 +1,8 @@
 #include <iostream>
 
+#define CEC_2022_BENCHMARK
 #include "eval/cec22_functions_wrapper.h"
+
 #include "heuristics/de.h"
 #include "utils/programargsparser.h"
 
@@ -27,7 +29,9 @@ int main(int argc, char **argv) {
     else
         g_max_num_evaluations = 1000000;
 
+#ifdef CEC_2022_BENCHMARK
     Cec22FunctionsWrapper *f = new Cec22FunctionsWrapper(2);
+#endif
 
     g_function_number = 1;
     LSHADE lshade(f);

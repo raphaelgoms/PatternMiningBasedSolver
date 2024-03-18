@@ -1,3 +1,5 @@
+#ifdef CEC_2022_BENCHMARK
+
 /*
   CEC22 Test Function Suite for Single Objective Bound Constrained Numerical Optimization
 
@@ -974,3 +976,4 @@ void cf_cal(double *x, double *f, int nx, double *Os,double * delta,double * bia
 	free(w);
 }
 
+#endif
